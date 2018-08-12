@@ -1,7 +1,6 @@
 package zig.i.carry.manager
 
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -16,8 +15,6 @@ import java.util.concurrent.TimeUnit
 class ApiManager {
 
     companion object {
-        private val TAG: String = ApiManager::class.java.simpleName
-        private const val LOCALHOST = "http://10.0.2.2:8080"
         private const val SERVER = "http://46.17.47.168:8080/"
         private const val VALIDATE = "validate"
         private const val VERIFY = "verify";
@@ -32,10 +29,8 @@ class ApiManager {
     private var apiService: APIService
 
     init {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY;
         apiService = Retrofit.Builder()
-                .client(OkHttpClient.Builder().readTimeout(11, TimeUnit.SECONDS).addInterceptor(logging).build())
+                .client(OkHttpClient.Builder().readTimeout(11, TimeUnit.SECONDS).build())
                 .baseUrl(SERVER)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build().create(APIService::class.java)
