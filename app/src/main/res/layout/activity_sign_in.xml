@@ -9,13 +9,14 @@
 
     <EditText
         android:id="@+id/edtLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:gravity="center"
         android:hint="@string/email_or_phone"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/edtPassword"
+        app:layout_constraintStart_toStartOf="@id/edtPassword"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
