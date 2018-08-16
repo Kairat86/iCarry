@@ -57,10 +57,17 @@ class AdActivity : AppCompatActivity() {
         atvCityFrom.addTextChangedListener(TxtChangeListener(atvCountryFrom, list, atvCityFrom, builder))
         atvCityTo.addTextChangedListener(TxtChangeListener(atvCountryTo, list, atvCityTo, builder))
         contacts = (application as App).getBox().all
+        Log.i(TAG, contacts.toString())
         rvContacts.adapter = ContactAdapter(contacts)
         Thread {
             setCurrencyAdapter()
         }.start()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) onBackPressed()
+        return true
     }
 
     private fun setCurrencyAdapter() {
@@ -115,10 +122,11 @@ class AdActivity : AppCompatActivity() {
                 ad.price = edtPrice.text.toString()
                 ad.currency = spCurrency.selectedItem.toString()
                 ad.userLogin = login
-                ad.contacts = contacts.map {
+                ad.contacts = contacts.filter { it.value.isNotBlank() }.map {
                     it.id = null
                     it
                 }
+                Log.i(TAG, "arr after filter=>$contacts")
                 ApiManager().publish(ad, object : Callback<Boolean> {
                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                         Log.i(TAG, "failure")
@@ -135,12 +143,13 @@ class AdActivity : AppCompatActivity() {
                         if (body!!) {
                             Toast.makeText(applicationContext, R.string.ad_published, LENGTH_LONG).show()
                             finish()
+                            contacts.removeAt(0)
+                            (application as App).getBox().put()
                         } else {
                             Toast.makeText(applicationContext, R.string.could_not_publish, LENGTH_LONG).show()
                         }
                     }
                 })
-                (application as App).getBox().put(contacts)
             }
         }
     }

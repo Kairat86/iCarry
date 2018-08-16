@@ -24,13 +24,15 @@ class ApiManager {
         private const val PUBLISH = "publish"
         private const val OFFERS = "offers"
         private const val ORDERS = "orders"
+        private const val MY_ADS = "my-ads"
+        private const val DELETE = "delete"
     }
 
     private var apiService: APIService
 
     init {
         apiService = Retrofit.Builder()
-                .client(OkHttpClient.Builder().readTimeout(11, TimeUnit.SECONDS).build())
+                .client(OkHttpClient.Builder().readTimeout(12, TimeUnit.SECONDS).build())
                 .baseUrl(SERVER)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build().create(APIService::class.java)
@@ -68,6 +70,14 @@ class ApiManager {
         apiService.orders().enqueue(callback)
     }
 
+    fun myAds(login: String, callback: Callback<List<Ad>>) {
+        apiService.myAds(login).enqueue(callback)
+    }
+
+    fun remove(ad: Ad?, callback: Callback<Boolean>) {
+        if (ad != null) apiService.delete(ad).enqueue(callback)
+    }
+
     interface APIService {
 
         @POST(VALIDATE)
@@ -93,5 +103,11 @@ class ApiManager {
 
         @GET(ORDERS)
         fun orders(): Call<List<Ad>>
+
+        @POST(MY_ADS)
+        fun myAds(@Body login: String): Call<List<Ad>>
+
+        @POST(DELETE)
+        fun delete(@Body ad: Ad): Call<Boolean>
     }
 }

@@ -1,5 +1,6 @@
 package zig.i.carry.adapter
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -7,12 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.ad_item.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import zig.i.carry.R
 import zig.i.carry.activity.DetailsActivity
+import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Ad
 import java.text.SimpleDateFormat
 
-class AdAdapter(private val ads: List<Ad>?) : RecyclerView.Adapter<AdAdapter.AdViewHolder>() {
+open class AdAdapter(private val ads: MutableList<Ad>?, private val isMyAds: Boolean) : RecyclerView.Adapter<AdAdapter.AdViewHolder>() {
 
     companion object {
         val TAG: String = AdAdapter::class.java.simpleName
@@ -39,6 +44,31 @@ class AdAdapter(private val ads: List<Ad>?) : RecyclerView.Adapter<AdAdapter.AdV
                 val intent = Intent(context, DetailsActivity::class.java)
                 intent.putExtra("ad", ads?.get(adapterPosition))
                 context.startActivity(intent)
+            }
+
+            Log.i(TAG, "isMyAds=>$isMyAds")
+            if (isMyAds) {
+                v.setOnLongClickListener {
+                    Log.i(TAG, "onLongClick")
+                    AlertDialog.Builder(it.context).setMessage(R.string.are_you_sure_to_del)
+                            .setNegativeButton(android.R.string.no, null)
+                            .setPositiveButton(android.R.string.yes) { d, _ ->
+                                d.dismiss()
+                                ApiManager().remove(ads?.get(adapterPosition), object : Callback<Boolean> {
+                                    override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
+                                           t?.printStackTrace()
+                                    }
+
+                                    override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {
+                                        Log.i(TAG, "remove=>${response?.body()}")
+                                    }
+                                })
+                                val index = adapterPosition
+                                ads?.removeAt(index)
+                                notifyItemRemoved(index)
+                            }.create().show()
+                    true
+                }
             }
         }
     }

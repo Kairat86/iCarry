@@ -35,4 +35,12 @@ abstract class Ad : Serializable {
     var createDate: Long? = null
     @JsonProperty("currency")
     lateinit var currency: String
+    @JsonProperty("id")
+    var id: Long? = null
+
+    override fun toString(): String {
+        return "${javaClass.simpleName}(id=$id)"
+    }
+
+
 }

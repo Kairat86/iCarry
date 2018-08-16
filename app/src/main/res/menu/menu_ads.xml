@@ -2,9 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--<item-->
-        <!--android:icon="@drawable/ic_filter_list_black_24dp"-->
-        <!--android:onClick="startFilterActivity"-->
-        <!--android:title="@string/filter"/>-->
+    <!--android:icon="@drawable/ic_filter_list_black_24dp"-->
+    <!--android:onClick="startFilterActivity"-->
+    <!--android:title="@string/filter"/>-->
+   
     <item
         android:id="@+id/action_logout"
         android:onClick="logout"
