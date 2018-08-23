@@ -1,5 +1,5 @@
 <resources>
-    <string name="email_or_phone">Enter email</string>
+    <string name="email_or_phone">Enter email or phone</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
