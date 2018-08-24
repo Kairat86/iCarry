@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_or_phone">"أدخل البريد الإلكتروني أو الهاتف "</string>
+    <string name="password">"كلمه السر "</string>
+    <string name="sign_in">"تسجيل الدخول "</string>
+    <string name="sign_up">سجل</string>
+    <string name="name">اسم</string>
+    <string name="next">التالى</string>
+    <string name="wrong_format">"التنسيق خاطئ "</string>
+    <string name="enter_code">"ادخل الرمز "</string>
+    <string name="phone">هاتف</string>
+    <string name="register">تسجيل</string>
+    <string name="retype_password">"أعد إدخال كلمة السر "</string>
+    <string name="type_your_name">"اكتب اسمك من فضلك "</string>
+    <string name="passwords_not_match">"كلمة المرور غير مطابقة! "</string>
+    <string name="too_short_pwd">"يجب أن تتكون كلمة المرور من 5 أحرف على الأقل "</string>
+    <string name="forgot_pwd">"هل نسيت كلمة المرور "</string>
+    <string name="send">إرسال</string>
+    <string name="check_email">"تحقق من بريدك الالكتروني "</string>
+    <string name="email_not_sent">"لا يمكن إرسال بريد إلكتروني ، حاول مرة أخرى في وقت لاحق من فضلك "</string>
+    <string name="not_registered">"أنت غير مسجل ، قم بالتسجيل من فضلك "</string>
+    <string name="no_internet">"لا يوجد اتصال بالإنترنت "</string>
+    <string name="maintenance">"أعمال الصيانة ، حاول لاحقا من فضلك "</string>
+    <string name="logout">"الخروج "</string>
+    <string name="country_name">"أدخل اسم الدولة "</string>
+    <string name="from">"من عند "</string>
+    <string name="enter_login">"أدخل معلومات تسجيل الدخول الخاصة بك من فضلك "</string>
+    <string name="enter_pwd">"أدخل كلمة المرور الخاصة بك من فضلك "</string>
+    <string name="to">"إلى "</string>
+    <string name="city_name">"أدخل اسم المدينة "</string>
+    <string name="description">"وصف "</string>
+    <string name="contacts">"جهات الاتصال: "</string>
+    <string name="phone_email_etc">"الهاتف والبريد الإلكتروني ، سكايب وغيرها "</string>
+    <string name="ad_published">"يتم نشر إعلانك ، وشكرا لكم "</string>
+    <string name="could_not_publish">"لا يمكن نشر الإعلان الخاص بك ، حاول مرة أخرى في وقت لاحق من فضلك "</string>
+    <string name="wrong_creds">"تسجيل الدخول أو كلمة المرور خاطئة "</string>
+    <string name="price">السعر</string>
+    <string name="offers">"عروض "</string>
+    <string name="orders">أوامر</string>
+    <string name="my_ads">إعلاناتي</string>
+    <string name="are_you_sure_to_del">"حذف هذا الإعلان؟ "</string>
+</resources>

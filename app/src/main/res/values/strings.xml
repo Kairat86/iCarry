@@ -11,7 +11,7 @@
     <string name="register">Register</string>
     <string name="retype_password">Retype password</string>
     <string name="type_your_name">Type your name please</string>
-    <string name="passwords_not_match">Passwords are different!</string>
+    <string name="passwords_not_match">Passwords do not match!</string>
     <string name="too_short_pwd">Password must be at least 5 characters long</string>
     <string name="forgot_pwd">Forgot password</string>
     <string name="send">Send</string>
