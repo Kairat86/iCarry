@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="email_or_phone">"أدخل البريد الإلكتروني أو الهاتف "</string>
+    <string name="email_or_phone">"أدخل لك البريد الإلكتروني "</string>
     <string name="password">"كلمه السر "</string>
     <string name="sign_in">"تسجيل الدخول "</string>
     <string name="sign_up">سجل</string>
@@ -39,4 +39,7 @@
     <string name="orders">أوامر</string>
     <string name="my_ads">إعلاناتي</string>
     <string name="are_you_sure_to_del">"حذف هذا الإعلان؟ "</string>
+    <string name="invalid_number">"رقم الهاتف غير صحيح "</string>
+    <string name="call_me">"اتصل بي "</string>
+    <string name="call_me">"اتصل بي "</string>
 </resources>

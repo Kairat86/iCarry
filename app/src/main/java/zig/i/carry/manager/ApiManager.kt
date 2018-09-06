@@ -32,7 +32,7 @@ class ApiManager {
 
     init {
         apiService = Retrofit.Builder()
-                .client(OkHttpClient.Builder().readTimeout(14, TimeUnit.SECONDS).build())
+                .client(OkHttpClient.Builder().readTimeout(15, TimeUnit.SECONDS).build())
                 .baseUrl(SERVER)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build().create(APIService::class.java)

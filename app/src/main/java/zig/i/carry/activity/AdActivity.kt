@@ -37,8 +37,6 @@ class AdActivity : AppCompatActivity() {
 
     companion object {
         private val TAG: String = AdActivity::class.java.simpleName
-        private const val PUBLISH_OK = "publish_ok"
-        private const val RESPONSE = "response"
     }
 
     private val list = Locale.getISOCountries().map { Locale("", it) }
@@ -49,7 +47,8 @@ class AdActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ad)
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, list.map { it.displayCountry })
+        val countries = list.map { it.displayCountry }
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, countries)
         atvCountryFrom.setAdapter(adapter)
         atvCountryTo.setAdapter(adapter)
         atvCityFrom.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) builder.setCountry(list.find { atvCountryFrom.text.toString() == it.displayCountry }?.country) }
