@@ -139,7 +139,7 @@ class AdActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>) {
                         val body = response.body()
                         Log.i(TAG, body.toString())
-                        if (body!!) {
+                        if (body != null && body) {
                             Toast.makeText(applicationContext, R.string.ad_published, LENGTH_LONG).show()
                             finish()
                             contacts.removeAt(0)

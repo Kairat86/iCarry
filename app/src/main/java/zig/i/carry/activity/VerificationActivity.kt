@@ -63,7 +63,7 @@ class VerificationActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                    Log.i(TAG, response.body().toString())
+                    Log.i(TAG, response.toString())
                     if (response.body()!!) {
                         edtValidationCode.visibility = VISIBLE
                         btnOK.visibility = VISIBLE

@@ -53,8 +53,6 @@ class AdsActivity : AppCompatActivity() {
         }
 
         val login = (application as App).getBox().get(1).value
-        Log.i(TAG, "login=>$login")
-
         ApiManager().myAds(login, object : Callback<List<Ad>> {
             override fun onFailure(call: Call<List<Ad>>?, t: Throwable?) {
                 t?.printStackTrace()
