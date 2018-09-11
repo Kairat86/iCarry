@@ -41,3 +41,4 @@
 
   # Ignore JSR 305 annotations for embedding nullability information.
 -dontwarn javax.annotation.**
+-keepattributes LineNumberTable
