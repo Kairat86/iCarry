@@ -1,5 +1,6 @@
 package zig.i.carry.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -69,6 +70,7 @@ class AdActivity : AppCompatActivity() {
         return true
     }
 
+    @SuppressLint("NewApi")
     private fun setCurrencyAdapter() {
         val currencies = Currency.getAvailableCurrencies().toMutableList()
         val conn = URL("http://ip-api.com/json").openConnection() as HttpURLConnection

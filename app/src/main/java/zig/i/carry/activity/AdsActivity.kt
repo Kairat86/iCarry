@@ -60,7 +60,6 @@ class AdsActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<List<Ad>>?, response: Response<List<Ad>>?) {
                 myAds = response?.body()!!
-                Log.i(TAG, "my ads=>$myAds")
                 if (myAds.isNotEmpty()) {
                     val myAdsFragment = MyAdsFragment()
                     bundle = Bundle()
