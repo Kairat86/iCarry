@@ -103,7 +103,7 @@ class AdActivity : AppCompatActivity() {
     fun addContact(v: View) {
         if (rvContacts.getChildAt(contacts.size - 1).findViewById<EditText>(R.id.edtContact).text.isNotBlank()) {
             contacts.add(Contact())
-            rvContacts.adapter.notifyItemInserted(contacts.size - 1)
+            rvContacts.adapter?.notifyItemInserted(contacts.size - 1)
         }
     }
 

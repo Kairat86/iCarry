@@ -11,6 +11,8 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,6 +51,12 @@ class MainActivity : AppCompatActivity() {
             setContentView(R.layout.activity_sign_in)
         }
         manager = ApiManager()
+        adView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                adView.visibility = VISIBLE
+            }
+        }
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     fun signIn(v: View) {
