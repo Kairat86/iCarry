@@ -8,7 +8,7 @@
     <string name="next">التالى</string>
     <string name="wrong_format">التنسيق خاطئ </string>
     <string name="enter_code">ادخل الرمز </string>
-    <string name="phone">هاتف</string>
+
     <string name="register">تسجيل</string>
     <string name="retype_password">أعد إدخال كلمة السر </string>
     <string name="type_your_name">اكتب اسمك من فضلك </string>
@@ -40,5 +40,5 @@
     <string name="my_ads">إعلاناتي</string>
     <string name="are_you_sure_to_del">حذف هذا الإعلان؟</string>
     <string name="invalid_number">"بريد إلكتروني خاطئ "</string>
-    <string name="call_me">اتصل بي</string>
+
 </resources>

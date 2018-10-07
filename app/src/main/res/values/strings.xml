@@ -7,7 +7,6 @@
     <string name="next">Next</string>
     <string name="wrong_format">Format is wrong</string>
     <string name="enter_code">Enter code</string>
-    <string name="phone">Phone</string>
     <string name="register">Register</string>
     <string name="retype_password">Retype password</string>
     <string name="type_your_name">Type your name please</string>
@@ -39,7 +38,7 @@
     <string name="my_ads">My ads</string>
     <string name="are_you_sure_to_del">Delete this advertisement?</string>
     <string name="invalid_number">Invalid email</string>
-    <string name="call_me">Call me</string>
+
 
     <array name="spinner_array">
         <item>Offer</item>

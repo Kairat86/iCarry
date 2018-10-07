@@ -51,12 +51,12 @@ class MainActivity : AppCompatActivity() {
             setContentView(R.layout.activity_sign_in)
         }
         manager = ApiManager()
-        adView.adListener = object : AdListener() {
+        adViewSignIn.adListener = object : AdListener() {
             override fun onAdLoaded() {
-                adView.visibility = VISIBLE
+                adViewSignIn.visibility = VISIBLE
             }
         }
-        adView.loadAd(AdRequest.Builder().build())
+        adViewSignIn.loadAd(AdRequest.Builder().build())
     }
 
     fun signIn(v: View) {

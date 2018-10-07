@@ -3,14 +3,14 @@ package zig.i.carry.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_verification.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,26 +24,20 @@ import zig.i.carry.util.C.isOK
 class VerificationActivity : AppCompatActivity() {
     companion object {
         private val TAG: String = VerificationActivity::class.java.simpleName
-        private lateinit var callMeMenuItem: MenuItem
     }
 
     private lateinit var manager: ApiManager
-    private var seconds = 120;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitle(R.string.sign_up)
         setContentView(R.layout.activity_verification)
         manager = ApiManager()
-    }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.menu_verification, menu)
-//        callMeMenuItem = menu.findItem(R.id.action_call_me)
-//        return true
-//    }
-
-    fun call(item: MenuItem) {
-
+        adViewVerification.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                adViewVerification.visibility = VISIBLE
+            }
+        }
+        adViewVerification.loadAd(AdRequest.Builder().build())
     }
 
     fun next(v: View) {
@@ -67,8 +61,6 @@ class VerificationActivity : AppCompatActivity() {
                     if (response.body()!!) {
                         edtValidationCode.visibility = VISIBLE
                         btnOK.visibility = VISIBLE
-//                        callMeMenuItem.isVisible = true
-//                        startTimeCounter()
                     } else {
                         edtEmailOrPhone.error = getString(R.string.invalid_number)
                     }
@@ -78,17 +70,6 @@ class VerificationActivity : AppCompatActivity() {
         } else {
             edtEmailOrPhone.error = getString(R.string.wrong_format)
         }
-    }
-
-    private fun startTimeCounter() {
-        callMeMenuItem.title = seconds--.toString()
-        Handler().postDelayed({
-            if (seconds > 0) {
-                startTimeCounter()
-            } else {
-                callMeMenuItem.title = getString(R.string.call_me)
-            }
-        }, 1000)
     }
 
     fun ok(v: View) {
