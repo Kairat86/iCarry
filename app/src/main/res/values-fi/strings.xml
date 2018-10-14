@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_or_phone">"Anna sinulle sähköpostia "</string>
+    <string name="password">Salasana</string>
+    <string name="sign_in">"Kirjaudu sisään "</string>
+    <string name="sign_up">"Kirjaudu "</string>
+    <string name="name">Nimi</string>
+    <string name="next">"Seuraava "</string>
+    <string name="wrong_format">"Muoto on väärä "</string>
+    <string name="enter_code">"Syötä koodi "</string>
+    <string name="register">"Rekisteröidy "</string>
+    <string name="retype_password">"Kirjoita salasana uudelleen "</string>
+    <string name="type_your_name">"Kirjoita nimesi "</string>
+    <string name="passwords_not_match">"Salasanat eivät täsmää! "</string>
+    <string name="too_short_pwd">"Salasanan on oltava vähintään 5 merkkiä pitkä "</string>
+    <string name="forgot_pwd">"Unohtuiko salasana "</string>
+    <string name="send">Lähettää</string>
+    <string name="check_email">"Tarkista sähköpostisi "</string>
+    <string name="email_not_sent">"Sähköpostia ei voitu lähettää, yritä myöhemmin uudelleen "</string>
+    <string name="not_registered">"Et ole rekisteröitynyt, ole hyvä ja rekisteröidy "</string>
+    <string name="no_internet">"Ei Internet-yhteyttä "</string>
+    <string name="maintenance">"Huoltotyöt, yritä myöhemmin "</string>
+    <string name="logout">"Kirjautua ulos "</string>
+    <string name="country_name">"Anna maan nimi "</string>
+    <string name="from">alkaen</string>
+    <string name="enter_login">"Anna sisäänkirjautumissosi "</string>
+    <string name="enter_pwd">"Anna salasanasi "</string>
+    <string name="to">jotta</string>
+    <string name="city_name">"Anna kaupungin nimi "</string>
+    <string name="description">Kuvaus</string>
+    <string name="contacts">"yhteystiedot: "</string>
+    <string name="phone_email_etc">"Puhelin, sähköposti, skype jne "</string>
+    <string name="ad_published">"Mainoksesi on julkaistu, kiitos "</string>
+    <string name="could_not_publish">"Mainoksesi ei voi julkaista, yritä myöhemmin uudelleen "</string>
+    <string name="wrong_creds">"Kirjautuminen tai salasana on väärä "</string>
+    <string name="price">Hinta</string>
+    <string name="offers">"tarjoukset "</string>
+    <string name="orders">tilaukset</string>
+    <string name="my_ads">Mainokseni</string>
+    <string name="are_you_sure_to_del">"Poista mainos? "</string>
+    <string name="invalid_number">"Virheellinen sähköpostiosoite "</string>
+</resources>

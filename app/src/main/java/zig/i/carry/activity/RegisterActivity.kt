@@ -7,7 +7,10 @@ import android.provider.ContactsContract.Intents.Insert.NAME
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.View.VISIBLE
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_verification.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +33,12 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         manager = ApiManager()
+        adViewRegistration.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                adViewVerification.visibility = VISIBLE
+            }
+        }
+        adViewRegistration.loadAd(AdRequest.Builder().build())
     }
 
     fun register(v: View) {
