@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.Intents.Insert.NAME
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.View.VISIBLE
 import com.google.android.gms.ads.AdListener
@@ -18,8 +18,8 @@ import zig.i.carry.App
 import zig.i.carry.R
 import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Contact
-import zig.i.carry.util.C.IS_LOGGED_IN
-import zig.i.carry.util.C.LOGIN
+import zig.i.carry.util.IS_LOGGED_IN
+import zig.i.carry.util.LOGIN
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -60,8 +60,8 @@ class RegisterActivity : AppCompatActivity() {
                         intent.putExtra(NAME, edtName.text)
                         startActivity(intent)
                         val box = (application as App).getBox()
-                        box.removeAll()
-                        box.put(Contact(login))
+                        box?.removeAll()
+                        box?.put(Contact(login))
                         getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE)
                                 .edit().putBoolean(IS_LOGGED_IN, true).apply()
 

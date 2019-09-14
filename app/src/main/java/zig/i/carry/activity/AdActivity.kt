@@ -1,8 +1,9 @@
 package zig.i.carry.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_ad.*
@@ -26,7 +28,8 @@ import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Contact
 import zig.i.carry.model.OfferAd
 import zig.i.carry.model.OrderAd
-import zig.i.carry.util.C
+import zig.i.carry.util.FAILED_TO_CONNECT
+import zig.i.carry.util.IS_LOGGED_IN
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -41,12 +44,20 @@ class AdActivity : AppCompatActivity() {
     }
 
     private val list = Locale.getISOCountries().map { Locale("", it) }
-    private lateinit var contacts: MutableList<Contact>
+    private var contacts: MutableList<Contact>? = null
     private lateinit var spinner: Spinner
     private val builder = AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
 
+    private lateinit var preferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferences = getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE)
+
+        val isLoggedIn = preferences.getBoolean(IS_LOGGED_IN, false)
+        if (!isLoggedIn) {
+
+        }
         setContentView(R.layout.activity_ad)
         val countries = list.map { it.displayCountry }
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, countries)
@@ -56,8 +67,7 @@ class AdActivity : AppCompatActivity() {
         atvCityTo.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) builder.setCountry(list.find { atvCountryTo.text.toString() == it.displayCountry }?.country) }
         atvCityFrom.addTextChangedListener(TxtChangeListener(atvCountryFrom, list, atvCityFrom, builder))
         atvCityTo.addTextChangedListener(TxtChangeListener(atvCountryTo, list, atvCityTo, builder))
-        contacts = (application as App).getBox().all
-        Log.i(TAG, contacts.toString())
+        contacts = (application as App).getBox()?.all
         rvContacts.adapter = ContactAdapter(contacts)
         Thread {
             setCurrencyAdapter()
@@ -94,16 +104,16 @@ class AdActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_ad, menu)
         spinner = menu?.findItem(R.id.spinner)?.actionView as Spinner
         val adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_array, R.layout.spinner_item);
+                R.array.spinner_array, R.layout.spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter;
         return super.onCreateOptionsMenu(menu)
     }
 
     fun addContact(v: View) {
-        if (rvContacts.getChildAt(contacts.size - 1).findViewById<EditText>(R.id.edtContact).text.isNotBlank()) {
-            contacts.add(Contact())
-            rvContacts.adapter?.notifyItemInserted(contacts.size - 1)
+        if (rvContacts.getChildAt(contacts!!.size - 1).findViewById<EditText>(R.id.edtContact).text.isNotBlank()) {
+            contacts?.add(Contact())
+            rvContacts.adapter?.notifyItemInserted(contacts!!.size - 1)
         }
     }
 
@@ -112,7 +122,7 @@ class AdActivity : AppCompatActivity() {
             atvCityFrom.text.isBlank() -> atvCityFrom.error = getString(R.string.city_name)
             atvCityTo.text.isBlank() -> atvCityTo.error = getString(R.string.city_name)
             else -> {
-                val login = (application as App).getBox().all.reduce { e1, e2 -> if (e1.id!! < e2.id!!) e1 else e2 }.value
+                val login = (application as App).getBox()?.all?.reduce { e1, e2 -> if (e1.id!! < e2.id!!) e1 else e2 }?.value
                 val selectedItemPosition = spinner.selectedItemPosition
                 val ad = if (selectedItemPosition == 0) OfferAd() else OrderAd()
                 ad.countryFrom = atvCountryFrom.text.toString()
@@ -123,7 +133,7 @@ class AdActivity : AppCompatActivity() {
                 ad.price = edtPrice.text.toString()
                 ad.currency = spCurrency.selectedItem.toString()
                 ad.userLogin = login
-                ad.contacts = contacts.filter { it.value.isNotBlank() }.map {
+                ad.contacts = contacts?.filter { it.value.isNotBlank() }?.map {
                     it.id = null
                     it
                 }
@@ -131,8 +141,8 @@ class AdActivity : AppCompatActivity() {
                 ApiManager().publish(ad, object : Callback<Boolean> {
                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                         Log.i(TAG, "failure")
-                        if (t?.localizedMessage?.contains(C.FAILED_TO_CONNECT)!!) {
-                            Toast.makeText(this@AdActivity, R.string.maintenance, Toast.LENGTH_LONG).show()
+                        if (t?.localizedMessage?.contains(FAILED_TO_CONNECT)!!) {
+                            Toast.makeText(this@AdActivity, R.string.maintenance, LENGTH_LONG).show()
                             finish()
                         }
                         t.printStackTrace()
@@ -144,8 +154,8 @@ class AdActivity : AppCompatActivity() {
                         if (body != null && body) {
                             Toast.makeText(applicationContext, R.string.ad_published, LENGTH_LONG).show()
                             finish()
-                            contacts.removeAt(0)
-                            (application as App).getBox().put()
+                            contacts?.removeAt(0)
+                            (application as App).getBox()?.put()
                         } else {
                             Toast.makeText(applicationContext, R.string.could_not_publish, LENGTH_LONG).show()
                         }

@@ -1,7 +1,7 @@
 package zig.i.carry.fragment
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -14,7 +14,7 @@ import retrofit2.Response
 import zig.i.carry.R
 import zig.i.carry.adapter.AdAdapter
 import zig.i.carry.model.Ad
-import zig.i.carry.util.C
+import zig.i.carry.util.FAILED_TO_CONNECT
 
 open class AdsFragment : Fragment(), Callback<List<Ad>> {
 
@@ -38,7 +38,7 @@ open class AdsFragment : Fragment(), Callback<List<Ad>> {
 
     override fun onFailure(call: Call<List<Ad>>?, t: Throwable?) {
         t?.printStackTrace()
-        if (t?.localizedMessage?.startsWith(C.FAILED_TO_CONNECT)!!) {
+        if (t?.localizedMessage?.startsWith(FAILED_TO_CONNECT)!!) {
             Toast.makeText(activity, R.string.maintenance, Toast.LENGTH_LONG).show()
             activity?.finish()
         }

@@ -1,7 +1,7 @@
 package zig.i.carry.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_details.*
 import zig.i.carry.R
 import zig.i.carry.adapter.AdContactAdapter
@@ -20,6 +20,6 @@ class DetailsActivity : AppCompatActivity() {
         tvPrice.append(": ${ad.price} ")
         tvDesc.text = ad.description
         tvCurrency.text = ad.currency
-        rvContacts.adapter = AdContactAdapter(ad.contacts.toMutableList())
+        rvContacts.adapter = AdContactAdapter(ad.contacts?.toMutableList())
     }
 }

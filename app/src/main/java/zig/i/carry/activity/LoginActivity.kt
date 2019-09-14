@@ -1,11 +1,10 @@
 package zig.i.carry.activity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -13,6 +12,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,27 +21,28 @@ import zig.i.carry.App
 import zig.i.carry.R
 import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Contact
-import zig.i.carry.util.C.FAILED_TO_CONNECT
-import zig.i.carry.util.C.IS_LOGGED_IN
-import zig.i.carry.util.C.isNetworkConnected
-import zig.i.carry.util.C.isOK
+import zig.i.carry.util.FAILED_TO_CONNECT
+import zig.i.carry.util.IS_LOGGED_IN
+import zig.i.carry.util.isNetworkConnected
+import zig.i.carry.util.isOK
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : DaggerAppCompatActivity() {
     companion object {
-        private val TAG: String = MainActivity::class.java.simpleName
+        private val TAG: String = LoginActivity::class.java.simpleName
         private const val REQUEST_CODE_ACTIVITY_REMIND = 1
         private const val REQUEST_CODE_ACTIVITY_VERIFY = 2
     }
 
     private lateinit var manager: ApiManager
-    private lateinit var preferences: SharedPreferences
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     private var isLoggedIn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferences = getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE)
-        isLoggedIn = preferences.getBoolean(IS_LOGGED_IN, false)
+        Log.i(TAG, isLoggedIn.toString())
         if (isLoggedIn) {
             startActivity(Intent(this, AdsActivity::class.java))
             finish()
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         manager.signIn(edtLogin.text.toString(), edtPassword.text.toString(), object : Callback<Boolean> {
             override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                 if (t?.localizedMessage?.startsWith(FAILED_TO_CONNECT)!!) {
-                    Toast.makeText(this@MainActivity, R.string.maintenance, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginActivity, R.string.maintenance, LENGTH_LONG).show()
                     finish()
                 }
             }
@@ -87,12 +88,12 @@ class MainActivity : AppCompatActivity() {
                 isLoggedIn = response?.body()!!
                 if (isLoggedIn) {
                     preferences.edit().putBoolean(IS_LOGGED_IN, isLoggedIn).apply()
-                    startActivity(Intent(this@MainActivity, AdsActivity::class.java))
+                    startActivity(Intent(this@LoginActivity, AdsActivity::class.java))
                     finish()
                     val box = (application as App).getBox()
-                    if (box.count() == 0L) box.put(Contact(edtLogin.text.toString()))
+                    if (box?.count() == 0L) box.put(Contact(edtLogin.text.toString()))
                 } else {
-                    Toast.makeText(this@MainActivity, R.string.wrong_creds, LENGTH_LONG).show()
+                    Toast.makeText(this@LoginActivity, R.string.wrong_creds, LENGTH_LONG).show()
                     prgrBarActivityMain.visibility = GONE
                 }
             }

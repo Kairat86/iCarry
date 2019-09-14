@@ -2,7 +2,7 @@ package zig.i.carry.activity
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
@@ -14,9 +14,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.R
 import zig.i.carry.manager.ApiManager
-import zig.i.carry.util.C.FAILED_TO_CONNECT
-import zig.i.carry.util.C.isNetworkConnected
-import zig.i.carry.util.C.isOK
+import zig.i.carry.util.FAILED_TO_CONNECT
+import zig.i.carry.util.isNetworkConnected
+import zig.i.carry.util.isOK
 
 class RemindPwdActivity : AppCompatActivity() {
 
