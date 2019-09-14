@@ -1,6 +1,6 @@
 package zig.i.carry.activity
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 class FilterActivity: AppCompatActivity() {
 

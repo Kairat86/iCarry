@@ -3,7 +3,7 @@ package zig.i.carry.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
@@ -17,9 +17,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.R
 import zig.i.carry.manager.ApiManager
-import zig.i.carry.util.C
-import zig.i.carry.util.C.LOGIN
-import zig.i.carry.util.C.isOK
+import zig.i.carry.util.FAILED_TO_CONNECT
+import zig.i.carry.util.LOGIN
+import zig.i.carry.util.isOK
 
 class VerificationActivity : AppCompatActivity() {
     companion object {
@@ -48,7 +48,7 @@ class VerificationActivity : AppCompatActivity() {
             manager.validate(emailOrPhone, object : Callback<Boolean> {
                 override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                     val msg = t?.localizedMessage
-                    if (msg?.contains(C.FAILED_TO_CONNECT)!!) {
+                    if (msg?.contains(FAILED_TO_CONNECT)!!) {
                         Toast.makeText(this@VerificationActivity, R.string.maintenance, Toast.LENGTH_LONG).show()
                         setResult(Activity.RESULT_CANCELED)
                         finish()

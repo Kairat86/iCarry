@@ -26,11 +26,11 @@ abstract class Ad : Serializable {
     @JsonProperty("description")
     lateinit var description: String
     @JsonProperty("userLogin")
-    lateinit var userLogin: String
+    var userLogin: String? = null
     @JsonProperty("price")
     lateinit var price: String
     @JsonProperty("contacts")
-    lateinit var contacts: List<Contact>
+    var contacts: List<Contact>? = null
     @JsonProperty("createDate")
     var createDate: Long? = null
     @JsonProperty("currency")

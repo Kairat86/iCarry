@@ -70,8 +70,8 @@ class ApiManager {
         apiService.orders().enqueue(callback)
     }
 
-    fun myAds(login: String, callback: Callback<List<Ad>>) {
-        apiService.myAds(login).enqueue(callback)
+    fun myAds(login: String?, callback: Callback<List<Ad>>) {
+        login?.let { apiService.myAds(it).enqueue(callback) }
     }
 
     fun remove(ad: Ad?, callback: Callback<Boolean>) {
