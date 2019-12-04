@@ -1,16 +1,15 @@
 package zig.i.carry.activity
 
-import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.ContactsContract.Intents.Insert.NAME
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.View.VISIBLE
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.activity_verification.*
+import kotlinx.android.synthetic.main.pgr_bar_ad.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,25 +19,28 @@ import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Contact
 import zig.i.carry.util.IS_LOGGED_IN
 import zig.i.carry.util.LOGIN
+import javax.inject.Inject
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : DaggerAppCompatActivity() {
 
     companion object {
         private val TAG: String = RegisterActivity::class.java.simpleName
     }
 
     private lateinit var manager: ApiManager
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         manager = ApiManager()
-        adViewRegistration.adListener = object : AdListener() {
+        adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
-                adViewVerification.visibility = VISIBLE
+                adView.visibility = VISIBLE
             }
         }
-        adViewRegistration.loadAd(AdRequest.Builder().build())
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     fun register(v: View) {
@@ -47,7 +49,7 @@ class RegisterActivity : AppCompatActivity() {
             edtPassword.text.length < 5 -> edtPassword.error = getString(R.string.too_short_pwd)
             edtPassword.text.toString() != edtPasswordRetype.text.toString() -> edtPasswordRetype.error = getString(R.string.passwords_not_match)
             else -> {
-                prgrBarActivityRegister.visibility = VISIBLE
+                pb.visibility = VISIBLE
                 val login = intent.getStringExtra(LOGIN)
                 manager.register(edtName.text.toString(), edtPassword.text.toString(), login, object : Callback<Boolean> {
                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
@@ -55,16 +57,12 @@ class RegisterActivity : AppCompatActivity() {
                     }
 
                     override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {
-                        val body = response?.body()
                         val intent = Intent(this@RegisterActivity, AdsActivity::class.java)
-                        intent.putExtra(NAME, edtName.text)
                         startActivity(intent)
                         val box = (application as App).getBox()
                         box?.removeAll()
                         box?.put(Contact(login))
-                        getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE)
-                                .edit().putBoolean(IS_LOGGED_IN, true).apply()
-
+                        sharedPreferences.edit().putBoolean(IS_LOGGED_IN, true).apply()
                         finish()
                     }
                 })

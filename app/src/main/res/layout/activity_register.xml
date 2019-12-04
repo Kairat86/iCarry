@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,7 +14,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -27,7 +26,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtName"/>
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
     <EditText
         android:id="@+id/edtPasswordRetype"
@@ -39,7 +38,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtPassword"/>
+        app:layout_constraintTop_toBottomOf="@id/edtPassword" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -49,26 +48,7 @@
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtPasswordRetype"/>
+        app:layout_constraintTop_toBottomOf="@id/edtPasswordRetype" />
 
-    <ProgressBar
-        android:id="@+id/prgrBarActivityRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="7dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewRegistration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_id"
-        ads:layout_constraintBottom_toBottomOf="parent"/>
+    <include layout="@layout/pgr_bar_ad" />
 </androidx.constraintlayout.widget.ConstraintLayout>

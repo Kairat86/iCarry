@@ -1,10 +1,10 @@
 package zig.i.carry.activity
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.MediaStore.Files.FileColumns.TITLE
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
@@ -82,7 +82,9 @@ class AdsActivity : DaggerAppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE).getBoolean(IS_LOGGED_IN, false)) {
+        val isLoggedIn = preferences.getBoolean(IS_LOGGED_IN, false)
+        Log.i(TAG, "logged in->$isLoggedIn")
+        if (isLoggedIn) {
             menuInflater.inflate(R.menu.menu_ads, menu)
         }
         return super.onCreateOptionsMenu(menu)
@@ -93,11 +95,11 @@ class AdsActivity : DaggerAppCompatActivity() {
     }
 
     fun logout(item: MenuItem) {
-        getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE).edit().putBoolean(IS_LOGGED_IN, false).apply()
+        preferences.edit().putBoolean(IS_LOGGED_IN, false).apply()
         finish()
     }
 
-    inner class Adapter(private val fragments: List<Fragment>, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+    inner class Adapter(private val fragments: List<Fragment>, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
         override fun getItem(position: Int) = fragments[position]
 

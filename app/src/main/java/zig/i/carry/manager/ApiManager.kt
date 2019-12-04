@@ -8,6 +8,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import zig.i.carry.BuildConfig
 import zig.i.carry.model.Ad
 import java.util.concurrent.TimeUnit
 
@@ -15,7 +16,6 @@ import java.util.concurrent.TimeUnit
 class ApiManager {
 
     companion object {
-        private const val SERVER = "http://46.17.47.168:8080/"
         private const val VALIDATE = "validate"
         private const val VERIFY = "verify";
         private const val REGISTER = "register"
@@ -24,7 +24,7 @@ class ApiManager {
         private const val PUBLISH = "publish"
         private const val OFFERS = "offers"
         private const val ORDERS = "orders"
-        private const val MY_ADS = "my-ads"
+        private const val MY_ADS = "my_ads"
         private const val DELETE = "delete"
     }
 
@@ -33,7 +33,7 @@ class ApiManager {
     init {
         apiService = Retrofit.Builder()
                 .client(OkHttpClient.Builder().readTimeout(15, TimeUnit.SECONDS).build())
-                .baseUrl(SERVER)
+                .baseUrl(BuildConfig.SERVER)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build().create(APIService::class.java)
     }

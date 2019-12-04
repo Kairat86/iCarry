@@ -14,6 +14,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.pgr_bar_ad.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,12 +53,12 @@ class LoginActivity : DaggerAppCompatActivity() {
             setContentView(R.layout.activity_sign_in)
         }
         manager = ApiManager()
-        adViewSignIn.adListener = object : AdListener() {
+        adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
-                adViewSignIn.visibility = VISIBLE
+                adView.visibility = VISIBLE
             }
         }
-        adViewSignIn.loadAd(AdRequest.Builder().build())
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     fun signIn(v: View) {
@@ -71,11 +72,11 @@ class LoginActivity : DaggerAppCompatActivity() {
         } else if (edtPassword.text.isEmpty()) {
             edtLogin.error = getString(R.string.enter_pwd)
             return
-        } else if (!isOK(edtLogin.text.toString())) {
+        } else if (!isOK(edtLogin.text.toString().trim())) {
             edtLogin.error = getString(R.string.wrong_format)
             return
         }
-        prgrBarActivityMain.visibility = VISIBLE
+        pb.visibility = VISIBLE
         manager.signIn(edtLogin.text.toString(), edtPassword.text.toString(), object : Callback<Boolean> {
             override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                 if (t?.localizedMessage?.startsWith(FAILED_TO_CONNECT)!!) {
@@ -94,7 +95,7 @@ class LoginActivity : DaggerAppCompatActivity() {
                     if (box?.count() == 0L) box.put(Contact(edtLogin.text.toString()))
                 } else {
                     Toast.makeText(this@LoginActivity, R.string.wrong_creds, LENGTH_LONG).show()
-                    prgrBarActivityMain.visibility = GONE
+                    pb.visibility = GONE
                 }
             }
         })

@@ -1,9 +1,10 @@
 package zig.i.carry.activity
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -13,9 +14,9 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.RequiresApi
 import com.google.android.gms.location.places.AutocompleteFilter
-import com.google.gson.JsonParser
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_ad.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,25 +31,22 @@ import zig.i.carry.model.OfferAd
 import zig.i.carry.model.OrderAd
 import zig.i.carry.util.FAILED_TO_CONNECT
 import zig.i.carry.util.IS_LOGGED_IN
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.*
+import javax.inject.Inject
 
 
-class AdActivity : AppCompatActivity() {
+class AdActivity : DaggerAppCompatActivity() {
 
     companion object {
         private val TAG: String = AdActivity::class.java.simpleName
-    }
+    }            
 
     private val list = Locale.getISOCountries().map { Locale("", it) }
     private var contacts: MutableList<Contact>? = null
     private lateinit var spinner: Spinner
     private val builder = AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
-
-    private lateinit var preferences: SharedPreferences
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,10 +67,11 @@ class AdActivity : AppCompatActivity() {
         atvCityTo.addTextChangedListener(TxtChangeListener(atvCountryTo, list, atvCityTo, builder))
         contacts = (application as App).getBox()?.all
         rvContacts.adapter = ContactAdapter(contacts)
-        Thread {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setCurrencyAdapter()
-        }.start()
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        Log.i(TAG, "on create")
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -80,15 +79,19 @@ class AdActivity : AppCompatActivity() {
         return true
     }
 
-    @SuppressLint("NewApi")
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setCurrencyAdapter() {
         val currencies = Currency.getAvailableCurrencies().toMutableList()
-        val conn = URL("http://ip-api.com/json").openConnection() as HttpURLConnection
-        conn.requestMethod = "GET"
-        conn.connect()
-        val element = JsonParser().parse(InputStreamReader(conn.content as InputStream?))
-        val code = (element.asJsonObject).get("countryCode").toString()
-        val currency = Currency.getInstance(Locale("", code.substring(1, code.length - 1)))
+
+        val tm = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+        val code = tm.networkCountryIso
+        Log.i(TAG, "country=>$code")
+        val currency = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Currency.getInstance(Locale.Builder().setRegion(code).build())
+        } else {
+            Currency.getInstance(Locale("", code))
+        }
         currencies.sortBy { it.currencyCode }
         val i = currencies.indexOf(currency)
         val tmp = currencies[0]
@@ -97,7 +100,7 @@ class AdActivity : AppCompatActivity() {
         val currAdapter = ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, currencies.map { it.currencyCode })
         currAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        runOnUiThread { spCurrency.adapter = currAdapter }
+        spCurrency.adapter = currAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
