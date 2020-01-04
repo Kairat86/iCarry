@@ -18,10 +18,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.R
 import zig.i.carry.manager.ApiManager
+import zig.i.carry.manager.ApiManagerImpl
 import zig.i.carry.util.FAILED_TO_CONNECT
 import zig.i.carry.util.LOGIN
 import zig.i.carry.util.isOK
 import zig.i.carry.view.VerificationView
+import javax.inject.Inject
 
 class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
 
@@ -29,12 +31,13 @@ class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
         private val TAG: String = VerificationActivity::class.java.simpleName
     }
 
-    private lateinit var manager: ApiManager
+    @Inject
+    lateinit var manager: ApiManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitle(R.string.sign_up)
         setContentView(R.layout.activity_verification)
-        manager = ApiManager()
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 adView.visibility = VISIBLE

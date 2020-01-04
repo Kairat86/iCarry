@@ -32,6 +32,8 @@ class AdsActivity : DaggerAppCompatActivity() {
     }
 
     @Inject
+    lateinit var apiManager: ApiManager
+    @Inject
     lateinit var preferences: SharedPreferences
     lateinit var myAds: List<Ad>
     private lateinit var fragments: MutableList<Fragment>
@@ -44,12 +46,12 @@ class AdsActivity : DaggerAppCompatActivity() {
         var bundle = Bundle()
         bundle.putString(TITLE, getString(R.string.offers))
         offerFragment.arguments = bundle
-        offerFragment.setGetAdsFun { ApiManager().offers(offerFragment) }
+        offerFragment.setGetAdsFun { apiManager.offers(offerFragment) }
         bundle = Bundle()
         bundle.putString(TITLE, getString(R.string.orders))
         val orderFragment = AdsFragment()
         orderFragment.arguments = bundle
-        orderFragment.setGetAdsFun { ApiManager().orders(orderFragment) }
+        orderFragment.setGetAdsFun { apiManager.orders(orderFragment) }
         fragments = mutableListOf(offerFragment, orderFragment)
         pager.adapter = Adapter(fragments, supportFragmentManager)
         fab.setOnClickListener {
@@ -62,12 +64,14 @@ class AdsActivity : DaggerAppCompatActivity() {
         }
 
         val login = (application as App).getBox()?.get(1)?.value
-        ApiManager().myAds(login, object : Callback<List<Ad>> {
+        Log.i(TAG, "login=>$login")
+        apiManager.myAds(login, object : Callback<List<Ad>> {
             override fun onFailure(call: Call<List<Ad>>?, t: Throwable?) {
                 t?.printStackTrace()
             }
 
             override fun onResponse(call: Call<List<Ad>>?, response: Response<List<Ad>>?) {
+                Log.i(TAG, "on response")
                 myAds = response?.body()!!
                 if (myAds.isNotEmpty()) {
                     val myAdsFragment = MyAdsFragment()

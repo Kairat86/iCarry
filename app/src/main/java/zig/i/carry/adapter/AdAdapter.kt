@@ -2,7 +2,6 @@ package zig.i.carry.adapter
 
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,12 @@ import zig.i.carry.activity.DetailsActivity
 import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Ad
 import java.text.SimpleDateFormat
+import javax.inject.Inject
 
 open class AdAdapter(private val ads: MutableList<Ad>?, private val isMyAds: Boolean) : androidx.recyclerview.widget.RecyclerView.Adapter<AdAdapter.AdViewHolder>() {
+
+    @Inject
+    lateinit var apiManager: ApiManager
 
     companion object {
         val TAG: String = AdAdapter::class.java.simpleName
@@ -54,9 +57,9 @@ open class AdAdapter(private val ads: MutableList<Ad>?, private val isMyAds: Boo
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes) { d, _ ->
                                 d.dismiss()
-                                ApiManager().remove(ads?.get(adapterPosition), object : Callback<Boolean> {
+                                apiManager.remove(ads?.get(adapterPosition), object : Callback<Boolean> {
                                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
-                                           t?.printStackTrace()
+                                        t?.printStackTrace()
                                     }
 
                                     override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {

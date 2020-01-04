@@ -5,12 +5,16 @@
   "entities": [
     {
       "id": "1:2380515048541266071",
-      "lastPropertyId": "2:6204617363668571675",
+      "lastPropertyId": "3:4460810929756695171",
       "name": "Contact",
       "properties": [
         {
           "id": "2:6204617363668571675",
           "name": "value"
+        },
+        {
+          "id": "3:4460810929756695171",
+          "name": "id"
         }
       ],
       "relations": []

@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.App
 import zig.i.carry.R
-import zig.i.carry.manager.ApiManager
+import zig.i.carry.manager.ApiManagerImpl
 import zig.i.carry.model.Contact
 import zig.i.carry.util.IS_LOGGED_IN
 import zig.i.carry.util.LOGIN
@@ -27,14 +27,14 @@ class RegisterActivity : DaggerAppCompatActivity() {
         private val TAG: String = RegisterActivity::class.java.simpleName
     }
 
-    private lateinit var manager: ApiManager
+    @Inject
+    lateinit var manager: ApiManagerImpl
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        manager = ApiManager()
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 adView.visibility = VISIBLE

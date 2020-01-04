@@ -35,7 +35,8 @@ class LoginActivity : DaggerAppCompatActivity() {
         private const val REQUEST_CODE_ACTIVITY_VERIFY = 2
     }
 
-    private lateinit var manager: ApiManager
+    @Inject
+    lateinit var manager: ApiManager
     @Inject
     lateinit var preferences: SharedPreferences
 
@@ -52,7 +53,6 @@ class LoginActivity : DaggerAppCompatActivity() {
             setTitle(R.string.sign_in)
             setContentView(R.layout.activity_sign_in)
         }
-        manager = ApiManager()
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 adView.visibility = VISIBLE
@@ -87,6 +87,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
             override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {
                 isLoggedIn = response?.body()!!
+                Log.i(TAG, "is logged in=>$isLoggedIn")
                 if (isLoggedIn) {
                     preferences.edit().putBoolean(IS_LOGGED_IN, isLoggedIn).apply()
                     startActivity(Intent(this@LoginActivity, AdsActivity::class.java))

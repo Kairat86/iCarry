@@ -39,7 +39,7 @@ class AdActivity : DaggerAppCompatActivity() {
 
     companion object {
         private val TAG: String = AdActivity::class.java.simpleName
-    }            
+    }
 
     private val list = Locale.getISOCountries().map { Locale("", it) }
     private var contacts: MutableList<Contact>? = null
@@ -47,6 +47,8 @@ class AdActivity : DaggerAppCompatActivity() {
     private val builder = AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
     @Inject
     lateinit var preferences: SharedPreferences
+    @Inject
+    lateinit var apiManager: ApiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,7 +143,7 @@ class AdActivity : DaggerAppCompatActivity() {
                     it
                 }
                 Log.i(TAG, "arr after filter=>$contacts")
-                ApiManager().publish(ad, object : Callback<Boolean> {
+                apiManager.publish(ad, object : Callback<Boolean> {
                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                         Log.i(TAG, "failure")
                         if (t?.localizedMessage?.contains(FAILED_TO_CONNECT)!!) {

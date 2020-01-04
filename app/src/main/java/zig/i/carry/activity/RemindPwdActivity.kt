@@ -2,21 +2,22 @@ package zig.i.carry.activity
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_remind.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.R
-import zig.i.carry.manager.ApiManager
+import zig.i.carry.manager.ApiManagerImpl
 import zig.i.carry.util.FAILED_TO_CONNECT
 import zig.i.carry.util.isNetworkConnected
 import zig.i.carry.util.isOK
+import javax.inject.Inject
 
 class RemindPwdActivity : AppCompatActivity() {
 
@@ -26,12 +27,12 @@ class RemindPwdActivity : AppCompatActivity() {
         private const val REMIND_ERROR = "REMIND_ERROR"
     }
 
-    private lateinit var manager: ApiManager
+    @Inject
+    lateinit var manager: ApiManagerImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_remind)
-        manager = ApiManager()
     }
 
     fun remind(v: View) {
