@@ -20,11 +20,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "zig.i.carry"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 15
         versionName "1.14"
-        multiDexEnabled true
         resValue "string", "KEY", localProperties["key"]
         buildConfigField "String", "SERVER", localProperties["server"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -55,12 +54,12 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
-    implementation 'com.google.android.material:material:1.0.0'
+//    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.6.2'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.dagger:dagger-android-support:2.25.4'
-    kapt 'com.google.dagger:dagger-compiler:2.25.4'
-    kapt 'com.google.dagger:dagger-android-processor:2.25.4'
+    implementation 'com.google.dagger:dagger-android-support:2.26'
+    kapt 'com.google.dagger:dagger-compiler:2.26'
+    kapt 'com.google.dagger:dagger-android-processor:2.26'
 }
