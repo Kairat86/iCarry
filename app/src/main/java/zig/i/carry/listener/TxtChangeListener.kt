@@ -30,7 +30,7 @@ class TxtChangeListener(private val atv: AutoCompleteTextView, private val list:
             val predictions = client.getAutocompletePredictions(s.toString(), null, builder.build())
             predictions.addOnCompleteListener {
                 val mapResult = predictions.result?.map { it.getPrimaryText(null).toString() }
-                atvCity.setAdapter(ArrayAdapter<String>(atv.context, android.R.layout.simple_expandable_list_item_1, mapResult))
+                atvCity.setAdapter(ArrayAdapter<String>(atv.context, android.R.layout.simple_expandable_list_item_1, mapResult?: emptyList()))
             }
         } else if (s?.isBlank()!!) {
             makePredictions = true
