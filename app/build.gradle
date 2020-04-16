@@ -22,8 +22,8 @@ android {
         applicationId "zig.i.carry"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 15
-        versionName "1.14"
+        versionCode 16
+        versionName "1.15"
         resValue "string", "KEY", localProperties["key"]
         buildConfigField "String", "SERVER", localProperties["server"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
