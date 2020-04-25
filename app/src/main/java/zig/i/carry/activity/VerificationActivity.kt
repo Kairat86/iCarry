@@ -12,7 +12,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_verification.*
-import kotlinx.android.synthetic.main.pgr_bar_ad.*
+import kotlinx.android.synthetic.main.pgr_bar_and_ad.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

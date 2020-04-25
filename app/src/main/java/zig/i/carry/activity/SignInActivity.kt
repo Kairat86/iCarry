@@ -14,7 +14,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.pgr_bar_ad.*
+import kotlinx.android.synthetic.main.pgr_bar_and_ad.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,9 +28,9 @@ import zig.i.carry.util.isNetworkConnected
 import zig.i.carry.util.isOK
 import javax.inject.Inject
 
-class LoginActivity : DaggerAppCompatActivity() {
+class SignInActivity : DaggerAppCompatActivity() {
     companion object {
-        private val TAG: String = LoginActivity::class.java.simpleName
+        private val TAG: String = SignInActivity::class.java.simpleName
         private const val REQUEST_CODE_ACTIVITY_REMIND = 1
         private const val REQUEST_CODE_ACTIVITY_VERIFY = 2
     }
@@ -80,22 +80,21 @@ class LoginActivity : DaggerAppCompatActivity() {
         manager.signIn(edtLogin.text.toString(), edtPassword.text.toString(), object : Callback<Boolean> {
             override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                 if (t?.localizedMessage?.startsWith(FAILED_TO_CONNECT)!!) {
-                    Toast.makeText(this@LoginActivity, R.string.maintenance, LENGTH_LONG).show()
+                    Toast.makeText(this@SignInActivity, R.string.maintenance, LENGTH_LONG).show()
                     finish()
                 }
             }
 
             override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {
                 isLoggedIn = response?.body()!!
-                Log.i(TAG, "is logged in=>$isLoggedIn")
                 if (isLoggedIn) {
                     preferences.edit().putBoolean(IS_LOGGED_IN, isLoggedIn).apply()
-                    startActivity(Intent(this@LoginActivity, AdsActivity::class.java))
+                    startActivity(Intent(this@SignInActivity, AdsActivity::class.java))
                     finish()
                     val box = (application as App).getBox()
                     if (box?.count() == 0L) box.put(Contact(edtLogin.text.toString()))
                 } else {
-                    Toast.makeText(this@LoginActivity, R.string.wrong_creds, LENGTH_LONG).show()
+                    Toast.makeText(this@SignInActivity, R.string.wrong_creds, LENGTH_LONG).show()
                     pb.visibility = GONE
                 }
             }

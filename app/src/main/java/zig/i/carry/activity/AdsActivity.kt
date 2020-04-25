@@ -4,12 +4,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.MediaStore.Files.FileColumns.TITLE
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_ads.*
 import retrofit2.Call
@@ -33,6 +35,7 @@ class AdsActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var apiManager: ApiManager
+
     @Inject
     lateinit var preferences: SharedPreferences
     lateinit var myAds: List<Ad>
@@ -46,32 +49,32 @@ class AdsActivity : DaggerAppCompatActivity() {
         var bundle = Bundle()
         bundle.putString(TITLE, getString(R.string.offers))
         offerFragment.arguments = bundle
-        offerFragment.setGetAdsFun { apiManager.offers(offerFragment) }
+        offerFragment.getAds = { apiManager.offers(offerFragment) }
         bundle = Bundle()
         bundle.putString(TITLE, getString(R.string.orders))
         val orderFragment = AdsFragment()
         orderFragment.arguments = bundle
-        orderFragment.setGetAdsFun { apiManager.orders(orderFragment) }
+        orderFragment.getAds = { apiManager.orders(orderFragment) }
         fragments = mutableListOf(offerFragment, orderFragment)
         pager.adapter = Adapter(fragments, supportFragmentManager)
         fab.setOnClickListener {
-            val intent = if (!preferences.getBoolean(IS_LOGGED_IN, false)) {
-                Intent(this, LoginActivity::class.java)
+            val intent: Intent
+            if (!preferences.getBoolean(IS_LOGGED_IN, false)) {
+                intent = Intent(this, SignInActivity::class.java)
+                finish()
             } else {
-                Intent(this, AdActivity::class.java)
+                intent = Intent(this, AdActivity::class.java)
             }
             startActivity(intent)
         }
 
         val login = (application as App).getBox()?.get(1)?.value
-        Log.i(TAG, "login=>$login")
         apiManager.myAds(login, object : Callback<List<Ad>> {
             override fun onFailure(call: Call<List<Ad>>?, t: Throwable?) {
                 t?.printStackTrace()
             }
 
             override fun onResponse(call: Call<List<Ad>>?, response: Response<List<Ad>>?) {
-                Log.i(TAG, "on response")
                 myAds = response?.body()!!
                 if (myAds.isNotEmpty()) {
                     val myAdsFragment = MyAdsFragment()
@@ -83,11 +86,16 @@ class AdsActivity : DaggerAppCompatActivity() {
                 }
             }
         })
+        adView.loadAd(AdRequest.Builder().build())
+        adView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                adView.visibility = VISIBLE
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val isLoggedIn = preferences.getBoolean(IS_LOGGED_IN, false)
-        Log.i(TAG, "logged in->$isLoggedIn")
         if (isLoggedIn) {
             menuInflater.inflate(R.menu.menu_ads, menu)
         }

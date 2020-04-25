@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.SignInActivity">
 
     <EditText
         android:id="@+id/edtLogin"
@@ -61,5 +61,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <include layout="@layout/pgr_bar_ad" />
+    <include layout="@layout/pgr_bar_and_ad" />
 </androidx.constraintlayout.widget.ConstraintLayout>

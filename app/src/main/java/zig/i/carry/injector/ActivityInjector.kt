@@ -13,7 +13,7 @@ interface ActivityInjector : AndroidInjector<DaggerAppCompatActivity> {
     fun adsActivity(): AdsActivity
 
     @ContributesAndroidInjector
-    fun loginActivity(): LoginActivity
+    fun loginActivity(): SignInActivity
 
     @ContributesAndroidInjector
     fun verificationActivity(): VerificationActivity

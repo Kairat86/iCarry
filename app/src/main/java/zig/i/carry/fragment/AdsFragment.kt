@@ -23,7 +23,7 @@ open class AdsFragment : Fragment(), Callback<List<Ad>> {
     }
 
     private var fragmentView: View? = null
-    private var getAds: (() -> Unit)? = null
+    var getAds: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +47,5 @@ open class AdsFragment : Fragment(), Callback<List<Ad>> {
     override fun onResponse(call: Call<List<Ad>>?, response: Response<List<Ad>>) {
         prgrBarFragmentAds.visibility = GONE
         rvFragmentAds.adapter = AdAdapter(response.body()?.toMutableList(), false)
-    }
-
-    fun setGetAdsFun(f: () -> Unit) {
-        this.getAds = f
     }
 }

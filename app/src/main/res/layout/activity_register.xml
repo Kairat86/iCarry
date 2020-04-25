@@ -50,5 +50,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edtPasswordRetype" />
 
-    <include layout="@layout/pgr_bar_ad" />
+    <include layout="@layout/pgr_bar_and_ad" />
 </androidx.constraintlayout.widget.ConstraintLayout>

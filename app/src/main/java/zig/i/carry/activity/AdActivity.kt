@@ -142,10 +142,8 @@ class AdActivity : DaggerAppCompatActivity() {
                     it.id = null
                     it
                 }
-                Log.i(TAG, "arr after filter=>$contacts")
                 apiManager.publish(ad, object : Callback<Boolean> {
                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
-                        Log.i(TAG, "failure")
                         if (t?.localizedMessage?.contains(FAILED_TO_CONNECT)!!) {
                             Toast.makeText(this@AdActivity, R.string.maintenance, LENGTH_LONG).show()
                             finish()
