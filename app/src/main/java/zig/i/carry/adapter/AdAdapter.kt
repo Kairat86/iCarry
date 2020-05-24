@@ -48,11 +48,8 @@ open class AdAdapter(private val ads: MutableList<Ad>?, private val isMyAds: Boo
                 intent.putExtra("ad", ads?.get(adapterPosition))
                 context.startActivity(intent)
             }
-
-            Log.i(TAG, "isMyAds=>$isMyAds")
             if (isMyAds) {
                 v.setOnLongClickListener {
-                    Log.i(TAG, "onLongClick")
                     AlertDialog.Builder(it.context).setMessage(R.string.are_you_sure_to_del)
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes) { d, _ ->

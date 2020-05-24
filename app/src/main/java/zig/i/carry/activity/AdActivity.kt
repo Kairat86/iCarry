@@ -15,7 +15,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.annotation.RequiresApi
-import com.google.android.gms.location.places.AutocompleteFilter
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_ad.*
 import retrofit2.Call
@@ -30,7 +33,6 @@ import zig.i.carry.model.Contact
 import zig.i.carry.model.OfferAd
 import zig.i.carry.model.OrderAd
 import zig.i.carry.util.FAILED_TO_CONNECT
-import zig.i.carry.util.IS_LOGGED_IN
 import java.util.*
 import javax.inject.Inject
 
@@ -44,23 +46,21 @@ class AdActivity : DaggerAppCompatActivity() {
     private val list = Locale.getISOCountries().map { Locale("", it) }
     private var contacts: MutableList<Contact>? = null
     private lateinit var spinner: Spinner
-    private val builder = AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+    private val builder = FindAutocompletePredictionsRequest.builder().setTypeFilter(TypeFilter.CITIES)
+
     @Inject
     lateinit var preferences: SharedPreferences
+
     @Inject
     lateinit var apiManager: ApiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Places.initialize(applicationContext, getString(R.string.KEY))
         preferences = getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE)
-
-        val isLoggedIn = preferences.getBoolean(IS_LOGGED_IN, false)
-        if (!isLoggedIn) {
-
-        }
         setContentView(R.layout.activity_ad)
         val countries = list.map { it.displayCountry }
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, countries)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, countries)
         atvCountryFrom.setAdapter(adapter)
         atvCountryTo.setAdapter(adapter)
         atvCityFrom.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) builder.setCountry(list.find { atvCountryFrom.text.toString() == it.displayCountry }?.country) }
@@ -69,11 +69,8 @@ class AdActivity : DaggerAppCompatActivity() {
         atvCityTo.addTextChangedListener(TxtChangeListener(atvCountryTo, list, atvCityTo, builder))
         contacts = (application as App).getBox()?.all
         rvContacts.adapter = ContactAdapter(contacts)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setCurrencyAdapter()
-        }
+        setCurrencyAdapter()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        Log.i(TAG, "on create")
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -88,7 +85,6 @@ class AdActivity : DaggerAppCompatActivity() {
         val tm = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
         val code = tm.networkCountryIso
-        Log.i(TAG, "country=>$code")
         val currency = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Currency.getInstance(Locale.Builder().setRegion(code).build())
         } else {
@@ -111,7 +107,7 @@ class AdActivity : DaggerAppCompatActivity() {
         val adapter = ArrayAdapter.createFromResource(this,
                 R.array.spinner_array, R.layout.spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter;
+        spinner.adapter = adapter
         return super.onCreateOptionsMenu(menu)
     }
 

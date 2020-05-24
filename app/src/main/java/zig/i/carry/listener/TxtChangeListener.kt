@@ -5,35 +5,38 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import com.google.android.gms.location.places.AutocompleteFilter
-import com.google.android.gms.location.places.AutocompleteFilter.TYPE_FILTER_CITIES
-import com.google.android.gms.location.places.Places
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import zig.i.carry.R
 import java.util.*
 
-class TxtChangeListener(private val atv: AutoCompleteTextView, private val list: List<Locale>, private val atvCity: AutoCompleteTextView, private val builder: AutocompleteFilter.Builder) : TextWatcher {
+class TxtChangeListener(private val atv: AutoCompleteTextView, private val list: List<Locale>, private val atvCity: AutoCompleteTextView, private val builder: FindAutocompletePredictionsRequest.Builder) : TextWatcher {
 
     companion object {
         private var TAG: String = TxtChangeListener::class.java.simpleName
     }
 
     private var makePredictions = true
-    private val client = Places.getGeoDataClient(atv.context)
+    private val client = Places.createClient(atv.context)
 
     override fun afterTextChanged(s: Editable?) {
-        Log.i(TAG, "afterTxtChanged=>$s")
-        if (atv.text.isBlank()) {
-            atv.error = atv.context.getString(R.string.country_name)
-            s?.clear()
-        } else if (makePredictions) {
-            makePredictions = false
-            val predictions = client.getAutocompletePredictions(s.toString(), null, builder.build())
-            predictions.addOnCompleteListener {
-                val mapResult = predictions.result?.map { it.getPrimaryText(null).toString() }
-                atvCity.setAdapter(ArrayAdapter<String>(atv.context, android.R.layout.simple_expandable_list_item_1, mapResult?: emptyList()))
+        when {
+            atv.text.isBlank() -> {
+                atv.error = atv.context.getString(R.string.country_name)
+                s?.clear()
             }
-        } else if (s?.isBlank()!!) {
-            makePredictions = true
+            makePredictions -> {
+                makePredictions = false
+                val task = client.findAutocompletePredictions(builder.setQuery(s.toString()).build())
+                task.addOnCompleteListener { t ->
+                    val mapResult = t.result?.autocompletePredictions?.map { it.getPrimaryText(null).toString() }
+                    atvCity.setAdapter(ArrayAdapter(atv.context, android.R.layout.simple_expandable_list_item_1, mapResult
+                            ?: emptyList()))
+                }
+            }
+            s?.isBlank()!! -> {
+                makePredictions = true
+            }
         }
     }
 
