@@ -5,26 +5,37 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edtEmailOrPhone"
+        android:id="@+id/edtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:hint="@string/email_or_phone"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fl" />
+
+    <TextView
+        android:id="@+id/tvErrEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@id/edtEmail" />
 
     <Button
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
         android:onClick="next"
         android:text="@string/next"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtEmailOrPhone" />
+        app:layout_constraintTop_toBottomOf="@id/tvErrEmail" />
 
 
     <EditText
@@ -44,8 +55,10 @@
         android:id="@+id/btnOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
         android:onClick="ok"
         android:text="@android:string/ok"
+        android:textColor="@android:color/white"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.objectbox'
 
-def localProperties = new Properties()
-localProperties.load(rootProject.file('local.properties').newDataInputStream())
+def p = new Properties()
+p.load(rootProject.file('local.properties').newDataInputStream())
 def keystoreProperties = new Properties()
 keystoreProperties.load(rootProject.file("keystore.properties").newDataInputStream())
 android {
@@ -19,13 +19,13 @@ android {
     }
     compileSdkVersion 29
     defaultConfig {
-        applicationId "zig.i.carry"
+        applicationId p["id"]
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 17
-        versionName "1.16"
-        resValue "string", "KEY", localProperties["key"]
-        buildConfigField "String", "SERVER", localProperties["server"]
+        versionCode 18
+        versionName "1.17"
+        resValue "string", "KEY", p["key"]
+        buildConfigField "String", "SERVER", p["server"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -60,10 +60,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.google.android.material:material:1.1.0'
 //    implementation 'com.google.android.gms:play-services-places:17.0.0'
-    implementation 'com.google.android.libraries.places:places:2.2.0'
+    implementation 'com.google.android.libraries.places:places:2.3.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.dagger:dagger-android-support:2.27'
-    kapt 'com.google.dagger:dagger-compiler:2.27'
-    kapt 'com.google.dagger:dagger-android-processor:2.27'
+    implementation 'com.google.dagger:dagger-android-support:2.28'
+    kapt 'com.google.dagger:dagger-compiler:2.28'
+    kapt 'com.google.dagger:dagger-android-processor:2.28'
 }

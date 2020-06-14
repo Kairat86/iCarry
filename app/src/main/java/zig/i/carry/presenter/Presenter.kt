@@ -1,8 +1,6 @@
 package zig.i.carry.presenter
 
-import zig.i.carry.view.MVPView
-
-abstract class Presenter<V : MVPView> {
+abstract class Presenter<V> {
 
     var view: V? = null
         set(value) {
@@ -11,7 +9,5 @@ abstract class Presenter<V : MVPView> {
         }
 
     abstract fun onViewAttached()
-    abstract fun showLoading()
-    abstract fun hideLoading()
 
 }

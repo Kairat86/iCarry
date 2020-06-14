@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -18,7 +19,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.R
 import zig.i.carry.manager.ApiManager
-import zig.i.carry.manager.ApiManagerImpl
 import zig.i.carry.util.FAILED_TO_CONNECT
 import zig.i.carry.util.LOGIN
 import zig.i.carry.util.isOK
@@ -37,6 +37,7 @@ class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitle(R.string.sign_up)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(R.layout.activity_verification)
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
@@ -46,40 +47,52 @@ class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
         adView.loadAd(AdRequest.Builder().build())
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return true
+    }
+
     fun next(v: View) {
         v.isActivated = false
-        val emailOrPhone = edtEmailOrPhone.text.toString()
-        if (isOK(emailOrPhone.trim())) {
-            showLoading()
-            manager.validate(emailOrPhone, object : Callback<Boolean> {
-                override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
-                    val msg = t?.localizedMessage
-                    if (msg?.contains(FAILED_TO_CONNECT)!!) {
-                        Toast.makeText(this@VerificationActivity, R.string.maintenance, Toast.LENGTH_LONG).show()
-                        setResult(Activity.RESULT_CANCELED)
-                        finish()
+        val email = edtEmail.text.toString()
+        when {
+            isOK(email.trim()) -> {
+                tvErrEmail.text = null
+                showLoading()
+                manager.validate(email, object : Callback<Boolean> {
+                    override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
+                        val msg = t?.localizedMessage
+                        if (msg?.contains(FAILED_TO_CONNECT)!!) {
+                            Toast.makeText(this@VerificationActivity, R.string.maintenance, Toast.LENGTH_LONG).show()
+                            setResult(Activity.RESULT_CANCELED)
+                            finish()
+                        }
+                        t.printStackTrace()
                     }
-                    t.printStackTrace()
-                }
 
-                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                    Log.i(TAG, response.toString())
-                    if (response.body()!!) {
-                        edtValidationCode.visibility = VISIBLE
-                        btnOK.visibility = VISIBLE
-                    } else {
-                        edtEmailOrPhone.error = getString(R.string.invalid_number)
+                    override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                        Log.i(TAG, response.toString())
+                        if (response.body()!!) {
+                            edtValidationCode.visibility = VISIBLE
+                            btnOK.visibility = VISIBLE
+                        } else {
+                            edtEmail.error = getString(R.string.invalid_number)
+                        }
+                        hideLoading()
                     }
-                    hideLoading()
-                }
-            })
-        } else {
-            edtEmailOrPhone.error = getString(R.string.wrong_format)
+                })
+            }
+            email.isBlank() -> {
+                tvErrEmail.text = getString(R.string.enter_email)
+            }
+            else -> {
+                tvErrEmail.text = getString(R.string.wrong_format)
+            }
         }
     }
 
     fun ok(v: View) {
-        manager.verify("${edtEmailOrPhone.text}:${edtValidationCode.text}", object : Callback<Boolean> {
+        manager.verify("${edtEmail.text}:${edtValidationCode.text}", object : Callback<Boolean> {
             override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                 t?.printStackTrace()
             }
@@ -87,7 +100,7 @@ class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
             override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {
                 if (response?.body()!!) {
                     val intent = Intent(this@VerificationActivity, RegisterActivity::class.java)
-                    intent.putExtra(LOGIN, edtEmailOrPhone.text.toString())
+                    intent.putExtra(LOGIN, edtEmail.text.toString())
                     startActivity(intent)
                     finish()
                 }
@@ -96,11 +109,11 @@ class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
         })
     }
 
-    override fun showLoading() {
+    fun showLoading() {
         pb.visibility = VISIBLE
     }
 
-    override fun hideLoading() {
+    fun hideLoading() {
         pb.visibility = INVISIBLE
     }
 

@@ -1,6 +1,8 @@
 package zig.i.carry.activity
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -8,17 +10,13 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
-import androidx.annotation.RequiresApi
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.widget.Autocomplete
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_ad.*
 import retrofit2.Call
@@ -33,11 +31,12 @@ import zig.i.carry.model.Contact
 import zig.i.carry.model.OfferAd
 import zig.i.carry.model.OrderAd
 import zig.i.carry.util.FAILED_TO_CONNECT
+import zig.i.carry.view.AdView
 import java.util.*
 import javax.inject.Inject
 
 
-class AdActivity : DaggerAppCompatActivity() {
+class AdActivity : DaggerAppCompatActivity(), AdView {
 
     companion object {
         private val TAG: String = AdActivity::class.java.simpleName
@@ -57,7 +56,6 @@ class AdActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Places.initialize(applicationContext, getString(R.string.KEY))
-        preferences = getSharedPreferences(packageName + getString(R.string.app_name), Context.MODE_PRIVATE)
         setContentView(R.layout.activity_ad)
         val countries = list.map { it.displayCountry }
         val adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, countries)
@@ -78,7 +76,6 @@ class AdActivity : DaggerAppCompatActivity() {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun setCurrencyAdapter() {
         val currencies = Currency.getAvailableCurrencies().toMutableList()
 
@@ -111,13 +108,6 @@ class AdActivity : DaggerAppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun addContact(v: View) {
-        if (rvContacts.getChildAt(contacts!!.size - 1).findViewById<EditText>(R.id.edtContact).text.isNotBlank()) {
-            contacts?.add(Contact())
-            rvContacts.adapter?.notifyItemInserted(contacts!!.size - 1)
-        }
-    }
-
     fun publish(item: MenuItem) {
         when {
             atvCityFrom.text.isBlank() -> atvCityFrom.error = getString(R.string.city_name)
@@ -142,7 +132,6 @@ class AdActivity : DaggerAppCompatActivity() {
                     override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                         if (t?.localizedMessage?.contains(FAILED_TO_CONNECT)!!) {
                             Toast.makeText(this@AdActivity, R.string.maintenance, LENGTH_LONG).show()
-                            finish()
                         }
                         t.printStackTrace()
                     }
@@ -152,9 +141,14 @@ class AdActivity : DaggerAppCompatActivity() {
                         Log.i(TAG, body.toString())
                         if (body != null && body) {
                             Toast.makeText(applicationContext, R.string.ad_published, LENGTH_LONG).show()
-                            finish()
                             contacts?.removeAt(0)
                             (application as App).getBox()?.put()
+                            val intent = Intent()
+                            val b = Bundle()
+                            b.putSerializable("ad", ad)
+                            intent.putExtra("b", b)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
                         } else {
                             Toast.makeText(applicationContext, R.string.could_not_publish, LENGTH_LONG).show()
                         }

@@ -1,5 +1,6 @@
 package zig.i.carry.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -14,15 +15,18 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_ads.*
+import kotlinx.android.synthetic.main.fragment_ads.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import zig.i.carry.App
 import zig.i.carry.R
+import zig.i.carry.adapter.AdAdapter
 import zig.i.carry.fragment.AdsFragment
 import zig.i.carry.fragment.MyAdsFragment
 import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Ad
+import zig.i.carry.model.OfferAd
 import zig.i.carry.util.IS_LOGGED_IN
 import javax.inject.Inject
 
@@ -31,6 +35,7 @@ class AdsActivity : DaggerAppCompatActivity() {
     companion object {
         private val TAG: String = AdsActivity::class.java.simpleName
         private const val REQUEST_CODE_ACTIVITY_FILTER = 1
+        private const val REQUEST_CODE_ACTIVITY_AD = 2
     }
 
     @Inject
@@ -60,13 +65,12 @@ class AdsActivity : DaggerAppCompatActivity() {
         fab.setOnClickListener {
             val intent: Intent
             if (!preferences.getBoolean(IS_LOGGED_IN, false)) {
-                intent = Intent(this, SignInActivity::class.java)
-                finish()
+                startActivity(Intent(this, SignInActivity::class.java))
             } else {
-                intent = Intent(this, AdActivity::class.java)
+                startActivityForResult(Intent(this, AdActivity::class.java), REQUEST_CODE_ACTIVITY_AD)
             }
-            startActivity(intent)
         }
+
 
         val login = (application as App).getBox()?.get(1)?.value
         apiManager.myAds(login, object : Callback<List<Ad>> {
@@ -92,6 +96,16 @@ class AdsActivity : DaggerAppCompatActivity() {
                 adView.visibility = VISIBLE
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            val s = data?.getSerializableExtra("ad")
+            val adapter = fragments[if (s is OfferAd) 0 else 1].rvFragmentAds.adapter as AdAdapter
+            adapter.add(s)
+            (fragments[2].rvFragmentAds.adapter as AdAdapter).add(s)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

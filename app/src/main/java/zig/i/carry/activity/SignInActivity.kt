@@ -1,10 +1,10 @@
 package zig.i.carry.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -37,6 +37,7 @@ class SignInActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var manager: ApiManager
+
     @Inject
     lateinit var preferences: SharedPreferences
 
@@ -45,6 +46,7 @@ class SignInActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(TAG, isLoggedIn.toString())
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         if (isLoggedIn) {
             startActivity(Intent(this, AdsActivity::class.java))
             finish()
@@ -61,19 +63,27 @@ class SignInActivity : DaggerAppCompatActivity() {
         adView.loadAd(AdRequest.Builder().build())
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return true
+    }
+
     fun signIn(v: View) {
         if (!isNetworkConnected(this)) {
             Toast.makeText(this, R.string.no_internet, LENGTH_LONG).show()
             return
         }
         if (edtLogin.text.isEmpty()) {
-            edtLogin.error = getString(R.string.enter_login)
+            tvErrLogin.text = getString(R.string.enter_login)
+            tvErrPw.text = null
             return
         } else if (edtPassword.text.isEmpty()) {
-            edtLogin.error = getString(R.string.enter_pwd)
+            tvErrPw.text = getString(R.string.enter_pwd)
+            tvErrLogin.text = null
             return
         } else if (!isOK(edtLogin.text.toString().trim())) {
-            edtLogin.error = getString(R.string.wrong_format)
+            tvErrLogin.text = getString(R.string.wrong_format)
+            tvErrPw.text = null
             return
         }
         pb.visibility = VISIBLE
@@ -107,10 +117,5 @@ class SignInActivity : DaggerAppCompatActivity() {
 
     fun remindPwd(v: View) {
         startActivityForResult(Intent(this, RemindPwdActivity::class.java), REQUEST_CODE_ACTIVITY_REMIND)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_CANCELED) finish()
     }
 }

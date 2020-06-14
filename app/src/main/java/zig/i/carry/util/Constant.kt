@@ -11,14 +11,14 @@ const val LOGIN = "login"
 const val PREFS_I_CARRY = "prefs_i_carry"
 
 
-fun isOK(emailOrPhone: String): Boolean {
+fun isOK(email: String): Boolean {
     val matchesEmail = Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
             + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
-            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(emailOrPhone).matches()
+            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches()
 
-    val matchesPhone = emailOrPhone.matches(Regex("\\+?[0-9]{10,13}"))
+    val matchesPhone = email.matches(Regex("\\+?[0-9]{10,13}"))
     return matchesEmail || matchesPhone
 }
 

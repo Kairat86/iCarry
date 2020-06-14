@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="email_or_phone">"Geben Sie Ihre E-Mail ein "</string>
-    <string name="password">Passwort</string>
+    <string name="email_or_phone">"deine E-Mail  "</string>
+    <string name="password">passwort</string>
     <string name="sign_in">Anmelden</string>
     <string name="sign_up">Registrieren</string>
     <string name="name">Name</string>
@@ -9,7 +9,7 @@
     <string name="wrong_format">"Das Format ist falsch "</string>
     <string name="enter_code">"Code eingeben "</string>
     <string name="register">"Registrieren "</string>
-    <string name="retype_password">"Passwort erneut eingeben "</string>
+    <string name="retype_password">"passwort erneut eingeben "</string>
     <string name="type_your_name">"Geben Sie bitte Ihren Namen ein "</string>
     <string name="passwords_not_match">"Passwörter stimmen nicht überein! "</string>
     <string name="too_short_pwd">"Das Passwort muss mindestens 5 Zeichen lang sein "</string>
@@ -21,22 +21,23 @@
     <string name="no_internet">"Keine Internetverbindung "</string>
     <string name="maintenance">"Wartungsarbeiten, versuchen Sie es später noch einmal "</string>
     <string name="logout">Ausloggen</string>
-    <string name="country_name">"Geben Sie den Ländernamen ein "</string>
+    <string name="country_name">land</string>
     <string name="from">Von</string>
     <string name="enter_login">"Bitte geben Sie Ihren Login ein "</string>
     <string name="enter_pwd">"Bitte geben Sie Ihr Passwort ein "</string>
     <string name="to">Zu</string>
-    <string name="city_name">"Geben Sie den Namen der Stadt ein "</string>
-    <string name="description">Beschreibung</string>
+    <string name="city_name">stadt</string>
+    <string name="description">beschreibung</string>
     <string name="contacts">"Kontakte: "</string>
     <string name="phone_email_etc">"Telefon, Email, Skype usw "</string>
     <string name="ad_published">"Ihre Werbung ist veröffentlicht, danke "</string>
     <string name="could_not_publish">"Ihre Werbung konnte nicht veröffentlicht werden. Bitte versuchen Sie es später erneut "</string>
     <string name="wrong_creds">"Login oder Passwort ist falsch "</string>
-    <string name="price">Preis</string>
+    <string name="price">preis</string>
     <string name="offers">"Bietet an "</string>
     <string name="orders">Aufträge</string>
     <string name="my_ads">"Meine Anzeigen "</string>
     <string name="are_you_sure_to_del">"Diese Werbung löschen? "</string>
     <string name="invalid_number">"Ungültige E-Mail "</string>
+    <string name="enter_email">Geben Sie bitte Ihre E-Mail-Adresse ein</string>
 </resources>

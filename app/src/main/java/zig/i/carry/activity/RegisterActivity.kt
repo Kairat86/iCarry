@@ -24,11 +24,12 @@ import javax.inject.Inject
 class RegisterActivity : DaggerAppCompatActivity() {
 
     companion object {
-        private val TAG: String = RegisterActivity::class.java.simpleName
+        private val TAG: String = zig.i.carry.activity.RegisterActivity::class.java.simpleName
     }
 
     @Inject
     lateinit var manager: ApiManagerImpl
+
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 

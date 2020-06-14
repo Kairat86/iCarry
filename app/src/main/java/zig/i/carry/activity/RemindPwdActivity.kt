@@ -40,12 +40,12 @@ class RemindPwdActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.no_internet, LENGTH_LONG).show()
             return
         }
-        if (!isOK(edtEmailOrPhone.text.toString())) {
-            edtEmailOrPhone.error = getString(R.string.wrong_format)
+        if (!isOK(edtEmail.text.toString())) {
+            edtEmail.error = getString(R.string.wrong_format)
             return
         }
         prgrBarActivityRemind.visibility = VISIBLE
-        manager.remind(edtEmailOrPhone.text.toString(), object : Callback<String> {
+        manager.remind(edtEmail.text.toString(), object : Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {
                 val msg = t?.localizedMessage
                 val contains = msg?.contains(FAILED_TO_CONNECT)!!

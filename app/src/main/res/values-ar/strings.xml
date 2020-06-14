@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="email_or_phone">أدخل لك البريد الإلكتروني </string>
+    <string name="email_or_phone">بريدك الالكتروني</string>
     <string name="password">كلمه السر </string>
     <string name="sign_in">تسجيل الدخول </string>
     <string name="sign_up">سجل</string>
@@ -22,15 +22,15 @@
     <string name="no_internet">لا يوجد اتصال بالإنترنت </string>
     <string name="maintenance">أعمال الصيانة ، حاول لاحقا من فضلك </string>
     <string name="logout">الخروج </string>
-    <string name="country_name">أدخل اسم الدولة </string>
+    <string name="country_name">بلد</string>
     <string name="from">من عند </string>
     <string name="enter_login">أدخل معلومات تسجيل الدخول الخاصة بك من فضلك </string>
     <string name="enter_pwd">أدخل كلمة المرور الخاصة بك من فضلك </string>
     <string name="to">إلى </string>
-    <string name="city_name">أدخل اسم المدينة </string>
+    <string name="city_name">مدينة</string>
     <string name="description">وصف </string>
     <string name="contacts">جهات الاتصال: </string>
-    <string name="phone_email_etc">الهاتف والبريد الإلكتروني ، سكايب وغيرها </string>
+    <string name="phone_email_etc">الهاتف ، البريد الإلكتروني ، سكايب ، إلخ</string>
     <string name="ad_published">يتم نشر إعلانك ، وشكرا لكم </string>
     <string name="could_not_publish">لا يمكن نشر الإعلان الخاص بك ، حاول مرة أخرى في وقت لاحق من فضلك </string>
     <string name="wrong_creds">تسجيل الدخول أو كلمة المرور خاطئة </string>
@@ -40,5 +40,6 @@
     <string name="my_ads">إعلاناتي</string>
     <string name="are_you_sure_to_del">حذف هذا الإعلان؟</string>
     <string name="invalid_number">"بريد إلكتروني خاطئ "</string>
+    <string name="enter_email">أدخل بريدك الإلكتروني من فضلك</string>
 
 </resources>

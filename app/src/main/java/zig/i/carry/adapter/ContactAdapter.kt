@@ -1,12 +1,9 @@
 package zig.i.carry.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
@@ -27,9 +24,12 @@ class ContactAdapter(private val contacts: MutableList<Contact>?) : androidx.rec
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.edt.setText(contacts?.get(position)?.value)
-        if (contacts?.size == 1) {
-            holder.itemView.btnDel.visibility = GONE
+        val rId = if (0 == position) {
+            android.R.drawable.ic_input_add
+        } else {
+            android.R.drawable.ic_delete
         }
+        holder.itemView.btnDel.setImageResource(rId)
     }
 
 
@@ -39,9 +39,13 @@ class ContactAdapter(private val contacts: MutableList<Contact>?) : androidx.rec
 
         init {
             v.findViewById<ImageView>(R.id.btnDel).setOnClickListener {
-                Log.i(TAG, "del")
-                contacts?.removeAt(adapterPosition)
-                notifyItemRemoved(adapterPosition)
+                if (contacts?.size ?: 0 > 1) {
+                    contacts?.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                } else {
+                    contacts?.add(Contact())
+                    notifyItemInserted(adapterPosition + 1)
+                }
             }
 
             edt.addTextChangedListener(object : TextWatcher {

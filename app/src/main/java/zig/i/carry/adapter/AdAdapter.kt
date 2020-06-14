@@ -14,6 +14,7 @@ import zig.i.carry.R
 import zig.i.carry.activity.DetailsActivity
 import zig.i.carry.manager.ApiManager
 import zig.i.carry.model.Ad
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -37,6 +38,11 @@ open class AdAdapter(private val ads: MutableList<Ad>?, private val isMyAds: Boo
         holder.itemView.tvAdItemFrom.text = ad?.cityFrom
         holder.itemView.tvAdItemTo.text = ad?.cityTo
         holder.itemView.tvDate.text = SimpleDateFormat.getDateInstance().format(ad?.createDate)
+    }
+
+    fun add(s: Serializable?) {
+        ads?.add(0, s as Ad)
+        notifyItemInserted(0)
     }
 
     inner class AdViewHolder(v: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {

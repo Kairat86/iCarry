@@ -1,6 +1,6 @@
 <resources>
-    <string name="email_or_phone">Enter you email</string>
-    <string name="password">Password</string>
+    <string name="email_or_phone">your email</string>
+    <string name="password">password</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="name">Name</string>
@@ -8,7 +8,7 @@
     <string name="wrong_format">Format is wrong</string>
     <string name="enter_code">Enter code</string>
     <string name="register">Register</string>
-    <string name="retype_password">Retype password</string>
+    <string name="retype_password">retype password</string>
     <string name="type_your_name">Type your name please</string>
     <string name="passwords_not_match">Passwords do not match!</string>
     <string name="too_short_pwd">Password must be at least 5 characters long</string>
@@ -20,24 +20,25 @@
     <string name="no_internet">No internet connection</string>
     <string name="maintenance">Maintenance works, try later please</string>
     <string name="logout">Logout</string>
-    <string name="country_name">Enter country name</string>
+    <string name="country_name">country</string>
     <string name="from">From</string>
     <string name="enter_login">Enter your login please</string>
     <string name="enter_pwd">Enter your password please</string>
     <string name="to">To</string>
-    <string name="city_name">Enter city name</string>
-    <string name="description">Description</string>
+    <string name="city_name">city</string>
+    <string name="description">description</string>
     <string name="contacts">Contacts:</string>
-    <string name="phone_email_etc">Phone, email, skype etc</string>
+    <string name="phone_email_etc">phone, email, skype etc</string>
     <string name="ad_published">Your advertisement is published, thank you</string>
     <string name="could_not_publish">Could not publish your advertisement, try again later please</string>
     <string name="wrong_creds">Login or password is wrong</string>
-    <string name="price">Price</string>
+    <string name="price">price</string>
     <string name="offers">Offers</string>
     <string name="orders">Orders</string>
     <string name="my_ads">My ads</string>
     <string name="are_you_sure_to_del">Delete this advertisement?</string>
     <string name="invalid_number">Invalid email</string>
+    <string name="enter_email">Enter your email please</string>
 
 
     <array name="spinner_array">
