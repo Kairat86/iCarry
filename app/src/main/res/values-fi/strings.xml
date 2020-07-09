@@ -40,4 +40,5 @@
     <string name="are_you_sure_to_del">"Poista mainos? "</string>
     <string name="invalid_number">"Virheellinen sähköpostiosoite "</string>
     <string name="enter_email">Kirjoita sähköpostiosoitteesi kiitos</string>
+    <string name="wrong_code">Väärä koodi</string>
 </resources>

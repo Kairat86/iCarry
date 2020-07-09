@@ -63,7 +63,6 @@ class AdsActivity : DaggerAppCompatActivity() {
         fragments = mutableListOf(offerFragment, orderFragment)
         pager.adapter = Adapter(fragments, supportFragmentManager)
         fab.setOnClickListener {
-            val intent: Intent
             if (!preferences.getBoolean(IS_LOGGED_IN, false)) {
                 startActivity(Intent(this, SignInActivity::class.java))
             } else {
@@ -122,6 +121,7 @@ class AdsActivity : DaggerAppCompatActivity() {
 
     fun logout(item: MenuItem) {
         preferences.edit().putBoolean(IS_LOGGED_IN, false).apply()
+        (application as App).getBox()?.removeAll()
         finish()
     }
 

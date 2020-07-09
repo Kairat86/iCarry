@@ -51,6 +51,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnNext" />
 
+    <TextView
+        android:id="@+id/edtValidationCodeErr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtValidationCode" />
+
     <Button
         android:id="@+id/btnOK"
         android:layout_width="wrap_content"
@@ -62,7 +72,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtValidationCode" />
+        app:layout_constraintTop_toBottomOf="@id/edtValidationCodeErr" />
 
     <include layout="@layout/pgr_bar_and_ad" />
 </androidx.constraintlayout.widget.ConstraintLayout>

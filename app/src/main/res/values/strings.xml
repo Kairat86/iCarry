@@ -39,6 +39,7 @@
     <string name="are_you_sure_to_del">Delete this advertisement?</string>
     <string name="invalid_number">Invalid email</string>
     <string name="enter_email">Enter your email please</string>
+    <string name="wrong_code">Wrong code</string>
 
 
     <array name="spinner_array">

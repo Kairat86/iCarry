@@ -41,5 +41,6 @@
     <string name="are_you_sure_to_del">حذف هذا الإعلان؟</string>
     <string name="invalid_number">"بريد إلكتروني خاطئ "</string>
     <string name="enter_email">أدخل بريدك الإلكتروني من فضلك</string>
+    <string name="wrong_code">"رمز خاطئ "</string>
 
 </resources>

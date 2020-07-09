@@ -92,17 +92,23 @@ class VerificationActivity : DaggerAppCompatActivity(), VerificationView {
     }
 
     fun ok(v: View) {
-        manager.verify("${edtEmail.text}:${edtValidationCode.text}", object : Callback<Boolean> {
+        val text = edtValidationCode.text.toString()
+        if (text.isEmpty()) return
+        manager.verify("${edtEmail.text}:$text", object : Callback<Boolean> {
             override fun onFailure(call: Call<Boolean>?, t: Throwable?) {
                 t?.printStackTrace()
             }
 
             override fun onResponse(call: Call<Boolean>?, response: Response<Boolean>?) {
+                Log.i(TAG, "resp=>${response?.body()}")
                 if (response?.body()!!) {
                     val intent = Intent(this@VerificationActivity, RegisterActivity::class.java)
                     intent.putExtra(LOGIN, edtEmail.text.toString())
                     startActivity(intent)
                     finish()
+                } else {
+                    edtValidationCodeErr.text = getString(R.string.wrong_code)
+                    edtValidationCodeErr.visibility = VISIBLE
                 }
             }
 

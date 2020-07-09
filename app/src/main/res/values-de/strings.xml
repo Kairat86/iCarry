@@ -40,4 +40,5 @@
     <string name="are_you_sure_to_del">"Diese Werbung löschen? "</string>
     <string name="invalid_number">"Ungültige E-Mail "</string>
     <string name="enter_email">Geben Sie bitte Ihre E-Mail-Adresse ein</string>
+    <string name="wrong_code">Falscher Code</string>
 </resources>
